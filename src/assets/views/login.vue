@@ -81,6 +81,7 @@
                         message: "请输入密码",
                         duration: 1
                     })
+                    return false;
                 }
                 stream.fetch({
                     method: 'POST',

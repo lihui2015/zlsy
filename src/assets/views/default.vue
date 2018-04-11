@@ -98,10 +98,10 @@
                         let result = res.data.result;
                         this.YXBanners = result;
                     }else{
-                        modal.toast({
-                            message: res.data.code + ":" + _self.token,
-                            duration: 3
-                        })
+                        // modal.toast({
+                        //     message: res.data.code + ":" + _self.token,
+                        //     duration: 3
+                        // })
                     }
                 });
 
@@ -118,10 +118,10 @@
                         this.bookList = result;
                         this.borrowRecords = result;
                     }else{
-                        modal.toast({
-                            message: res.data.code + ":" + _self.token,
-                            duration: 3
-                        })
+                        // modal.toast({
+                        //     message: res.data.code + ":" + _self.token,
+                        //     duration: 3
+                        // })
                     }
                 })
             })

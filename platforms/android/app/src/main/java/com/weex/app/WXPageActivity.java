@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,9 +16,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.weex.app.hotreload.HotReloadManager;
-import com.weex.app.util.AppConfig;
-import com.weex.app.util.Constants;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.taobao.weex.WXEnvironment;
@@ -27,6 +25,9 @@ import com.taobao.weex.WXSDKInstance;
 import com.taobao.weex.ui.component.NestedContainer;
 import com.taobao.weex.utils.WXLogUtils;
 import com.taobao.weex.utils.WXSoInstallMgrSdk;
+import com.weex.app.hotreload.HotReloadManager;
+import com.weex.app.util.AppConfig;
+import com.weex.app.util.Constants;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -252,19 +253,19 @@ public class WXPageActivity extends AbsWeexActivity implements
     }
   }
 
-  @Override  
-  public boolean onKeyDown(int keyCode, KeyEvent event) {  
-    
-      if (keyCode == KeyEvent.KEYCODE_BACK) {  
-          // Intent home = new Intent(Intent.ACTION_MAIN);  
-          // home.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);  
-          // home.addCategory(Intent.CATEGORY_HOME);  
-          // startActivity(home);  
-          setContentView(R.layout.activity_wxpage);
-          return true;  
-      }  
-      return super.onKeyDown(keyCode, event);  
-  } 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+             Intent home = new Intent(Intent.ACTION_MAIN);
+             home.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+             home.addCategory(Intent.CATEGORY_HOME);
+             startActivity(home);
+            //setContentView(R.layout.activity_splash);
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 
   @Override
   public void onDestroy() {

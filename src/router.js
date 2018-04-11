@@ -15,6 +15,7 @@ import bookImage from '@/assets/views/book-image'
 import bookScroller from '@/assets/views/book-scroller'
 import comment from '@/assets/views/comment'
 import login from '@/assets/views/login'
+import register from '@/assets/views/register'
 import empty from '@/assets/views/_empty'
 import postCreate from '@/assets/views/postCreate'
 import defaultPage from '@/assets/views/default'
@@ -107,6 +108,11 @@ module.exports = new Router({
       path: '/login',
       name: 'login',
       component: login
+    },
+    {
+      path: '/register',
+      name: 'register',
+      component: register
     },
     {
       path: '/_empty',

@@ -15,7 +15,7 @@
   var storage = weex.requireModule('storage');
   import util from './assets/util';
   import tabBar from './assets/components/tabBar.vue';
-  import loginPage from './assets/views/login.vue';
+  import loginPage from './assets/views/register.vue';
   export default {
       name: 'App',
       data () {
