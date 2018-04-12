@@ -64,7 +64,7 @@
                 catalog:[],
                 totalPage:1,
                 startPage:1,
-                pageSize: 2,
+                pageSize: 10,
                 lefthasMore: true,
                 righthasMore: false,
                 isOpen:false,

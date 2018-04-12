@@ -1,5 +1,6 @@
 <template>
     <div :class="['wrapper', isIpx&&isIpx()?'w-ipx':'']">
+
         <home-header title="阅读活动"></home-header>
         <scroller :class="['main-list',isand?'android-main-list':'']">
             <refresher></refresher>
@@ -39,12 +40,12 @@
         width: 750px;
         /*margin-bottom: 220px;*/
         margin-bottom: 100px;
-        background-color:#f8f8f8;
+        background-color:#ffffff;
         /*margin-top: 167px;*/
         /*margin-bottom: 90px;*/
     }
     .android-main-list{
-        margin-bottom: 150px;
+        margin-bottom: 100px;
     }
     .ml-ipx{
         margin-top: 208px;
@@ -96,6 +97,11 @@
         created () {
             var _self = this;
             this.isand = Utils.env.isAndroid();
+            // console.log("default")
+            // modal.toast({
+            //     message:'default',
+            //     duration:3
+            // })
             storage.getItem('token',event => {
                 _self.token = event.data;
                 if(_self.token == 'undefined'){
@@ -131,15 +137,15 @@
                 }
             })
 
-            this.Stack = new BroadcastChannel('Avengers')
-            this.Stack.onmessage = function (event) {
-                var test = event.data;
-                if(test == 'success'){
-                    _self.$router.push("/_empty")
-                }
-                this.Stack = null;
-                console.log(test);
-            }
+            // this.Stack = new BroadcastChannel('Avengers')
+            // this.Stack.onmessage = function (event) {
+            //     var test = event.data;
+            //     if(test == 'success'){
+            //         _self.$router.push("/_empty")
+            //     }
+            //     this.Stack = null;
+            //     console.log(test);
+            // }
 
             // storage.getItem('token',event => {
             //     _self.token = event.data;

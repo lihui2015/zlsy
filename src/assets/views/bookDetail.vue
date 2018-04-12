@@ -72,8 +72,8 @@
               </div>
             </div>
             <loading @loading="onloading" :class="['loading',loadinging ? 'show' : 'hide']">
-              <text class="indicator-text">{{placeholder}}</text>
-              <loading-indicator class="indicator"></loading-indicator>
+              <!-- <text class="indicator-text">{{placeholder}}</text> -->
+              <!-- <loading-indicator class="indicator"></loading-indicator> -->
             </loading> 
             <!--<loading class="loading" display="hide">-->
                 <!--<text class="indicator">Loading ...</text>-->
@@ -87,7 +87,7 @@
         font-family:iconfont;
     }
     .wrapper{
-        background-color: #f4f4f4;
+        background-color: #ffffff;
     }
     .w-ipx{
         margin-top: 40px;
@@ -104,7 +104,7 @@
         width: 750px;
     } 
     .android-main{
-      margin-bottom: 150px;
+      margin-bottom: 100px;
     }
     .book-detail{
       flex-direction: row;

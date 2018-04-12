@@ -15,7 +15,7 @@
                 </div>
             </div>
             <loading :class="['loading',loadinging ? 'show' : 'hide']" @loading="onloading">
-              <loading-indicator class="indicator"></loading-indicator>
+              <!-- <loading-indicator class="indicator"></loading-indicator> -->
             </loading> 
             <!--<loading class="loading" display="hide">-->
                 <!--<text class="indicator">Loading ...</text>-->
@@ -30,7 +30,7 @@
         font-family:iconfont;
     }
     .wrapper{
-        background-color: #f4f4f4;
+        background-color: #ffffff;
     }
     .w-ipx{
         margin-top: 40px;
@@ -44,7 +44,7 @@
         width: 750px;
     }
     .android-main-list{
-        margin-bottom: 150px;
+        margin-bottom: 100px;
     }
     .book-list{
         padding-left: 20px;

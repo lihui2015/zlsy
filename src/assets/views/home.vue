@@ -1,24 +1,23 @@
 <template>
     <div :class="['wrapper', isIpx&&isIpx()?'w-ipx':'']">
-        <div class="content-wrapper" :class="[noLogin?'hide':'show']">
-            <home-header title="阅读活动"></home-header>
-            <scroller :class="['main-list',isand?'android-main-list':'']">
-                <refresher></refresher>
-                <div class="cell-button">
-                    <yx-slider :imageList="YXBanners" ></yx-slider>
-                </div>
-                <!-- <div class="cell-button">
-                    <book-search></book-search>
-                </div>
-                <div class="cell-button">
-                    <block-1 :items="borrowRecords"></block-1>
-                </div> -->
-                <div class="cell-button">
-                    <block-2 :books="bookList"></block-2>
-                </div>
-            </scroller>
-            <tab-bar @tabTo="onTabTo" router="home"></tab-bar>
-        </div>
+
+        <home-header title="阅读活动"></home-header>
+        <scroller :class="['main-list',isand?'android-main-list':'']">
+            <refresher></refresher>
+            <div class="cell-button">
+                <yx-slider :imageList="YXBanners" ></yx-slider>
+            </div>
+            <!-- <div class="cell-button">
+                <book-search></book-search>
+            </div>
+            <div class="cell-button">
+                <block-1 :items="borrowRecords"></block-1>
+            </div> -->
+            <div class="cell-button">
+                <block-2 :books="bookList"></block-2>
+            </div>
+        </scroller>
+        <tab-bar @tabTo="onTabTo" router="home"></tab-bar>
         <div class="login-page" v-if="noLogin">
             <login-page v-on:login="handleMessage"></login-page>
         </div>
@@ -41,12 +40,12 @@
         width: 750px;
         /*margin-bottom: 220px;*/
         margin-bottom: 100px;
-        background-color:#f8f8f8;
+        background-color:#ffffff;
         /*margin-top: 167px;*/
         /*margin-bottom: 90px;*/
     }
     .android-main-list{
-        margin-bottom: 150px;
+        margin-bottom: 100px;
     }
     .ml-ipx{
         margin-top: 208px;
@@ -54,12 +53,6 @@
     }
 
     .cell-button{
-    }
-    .show{
-        opacity: 1;
-    }
-    .hide{
-        opacity: 0;
     }
 
 </style>
@@ -104,6 +97,11 @@
         created () {
             var _self = this;
             this.isand = Utils.env.isAndroid();
+            // console.log("default")
+            // modal.toast({
+            //     message:'default',
+            //     duration:3
+            // })
             storage.getItem('token',event => {
                 _self.token = event.data;
                 if(_self.token == 'undefined'){
@@ -139,15 +137,15 @@
                 }
             })
 
-            this.Stack = new BroadcastChannel('Avengers')
-            this.Stack.onmessage = function (event) {
-                var test = event.data;
-                if(test == 'success'){
-                    _self.$router.push("/_empty")
-                }
-                this.Stack = null;
-                console.log(test);
-            }
+            // this.Stack = new BroadcastChannel('Avengers')
+            // this.Stack.onmessage = function (event) {
+            //     var test = event.data;
+            //     if(test == 'success'){
+            //         _self.$router.push("/_empty")
+            //     }
+            //     this.Stack = null;
+            //     console.log(test);
+            // }
 
             // storage.getItem('token',event => {
             //     _self.token = event.data;

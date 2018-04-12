@@ -30,24 +30,24 @@
           util.initIconFont();
           var _self = this;
           //获取token
-          storage.getItem('token',event => {
-            var localToken = event.data;
-            if(localToken == 'undefined'){
-              this.login = false;
-              _self.$router.push('/login')              
-            }else if(localToken != 'undefined'){
-              this.GET('banners/list', localToken, res => {
-                  let result = res.data;
-                  if(result.code != 200){
-                    this.login = false;
-                    _self.$router.push('/login')
-                  }else if(result.code == 200){
-                    this.login = true;
-                    _self.$router.push('/home')
-                  }
-              });
-            }
-          })
+          // storage.getItem('token',event => {
+          //   var localToken = event.data;
+          //   if(localToken == 'undefined'){
+          //     this.login = false;
+          //     _self.$router.push('/login')              
+          //   }else if(localToken != 'undefined'){
+          //     this.GET('banners/list', localToken, res => {
+          //         let result = res.data;
+          //         if(result.code != 200){
+          //           this.login = false;
+          //           _self.$router.push('/login')
+          //         }else if(result.code == 200){
+          //           this.login = true;
+          //           _self.$router.push('/home')
+          //         }
+          //     });
+          //   }
+          // })
       },
       methods: {
           onTabTo(_result){

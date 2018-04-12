@@ -1,6 +1,6 @@
 <template>
 <div :class="['wrapper', isIpx&&isIpx()?'w-ipx':'']">
-    <div class="wrapper-step1 wrapper-login">
+    <div class="wrapper-step1 wrapper-login" v-if="step1">
         <text class="text">忘记密码</text>
         <input type="tel" autofocus="true" placeholder="手机号" class="input-style" v-model="phone" @click="focus" ref="tel">
         <div class="validate">
@@ -23,7 +23,9 @@
         
         <text class="login-btn" @click="next()">下一步</text>
     </div>
-    <div class="wrapper-step2 wrapper-login" v-if="step2">
+    <div class="wrapper-step2 wrapper-login" v-else>
+        <text class="text">忘记密码</text>
+
         <input type="password" placeholder="新密码" class="input-style" v-model="password">
         <input type="password" placeholder="确认密码" class="input-style" v-model="confirm_password">
         <text class="login-btn" @click="signIn()">重置密码</text>
@@ -31,7 +33,7 @@
 </div>
 </template>
 <style scoped>
-.wrapper{
+    .wrapper{
         width: 750px;
         height: 1245px;
         position: fixed;
@@ -44,6 +46,13 @@
         margin-left: 125px;
         width: 500px;
         align-items: center;
+    }
+    .wrapper-step2{
+        width: 750px;
+        height: 1245px;
+        position: absolute;
+        top:0;
+        left:0;
     }
     .text{
         font-size: 36px;
@@ -118,7 +127,7 @@
                 password: '',
                 before:true,
                 TIME:1000,
-                step2:false
+                step1:true
             }
         },
         components: { WxcCountdown },
@@ -132,14 +141,14 @@
                 var _self = this;
                 var np = this.password,
                     op = this.confirm_password;
-                if(!cd.length){
+                if(!np.length){
                     modal.toast({
                         message: "请输入新密码",
                         duration: 1
                     })
                     return false;
                 }
-                if(!pw.length){
+                if(!op.length){
                     modal.toast({
                         message: "请输入确认密码",
                         duration: 1
@@ -216,6 +225,9 @@
             },
             next(){
                 var _self = this;
+
+                _self.step1 = false;
+
                 var ph = this.phone,
                     cd = this.code;
                 if(!ph.length){
@@ -243,7 +255,7 @@
                 }, function(res){
                     if(res.data.code == 200){
                         let result = res.data.result;
-                        _self.step2 = true;
+                        _self.step1 = false;
                     }else{
                         modal.toast({
                             message: res.data.message,

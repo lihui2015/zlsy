@@ -44,8 +44,8 @@
           </div>
         </div>
         <loading @loading="onloading" :class="['loading',loadinging ? 'show' : 'hide']">
-          <text class="indicator-text">{{placeholder}}</text>
-          <loading-indicator class="indicator"></loading-indicator>
+          <!-- <text class="indicator-text">{{placeholder}}</text> -->
+          <!-- <loading-indicator class="indicator"></loading-indicator> -->
         </loading> 
       </scroller>
       <div class="comment-form" :class="[isand?'android-comment-form':'']">
@@ -208,7 +208,7 @@ export default {
       width: 750px;
     }
     .android-main{
-      margin-bottom: 150px;
+      margin-bottom: 100px;
     }
     .comment-form{
       position: fixed;
@@ -223,7 +223,7 @@ export default {
       align-items: center;
     }
     .android-comment-form{
-      bottom:50px;
+      bottom:0px;
     }
     .more{
       font-size: 50px;

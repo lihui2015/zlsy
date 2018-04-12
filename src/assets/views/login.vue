@@ -2,14 +2,14 @@
     <div :class="['wrapper', isIpx&&isIpx()?'w-ipx':'']">
     <div class="wrapper-login">
         <text class="text">登录账户</text>
-        <input type="tel" autofocus="true" placeholder="手机号" class="input-style" v-model="phone">
+        <input type="tel" autofocus="true" placeholder="手机号" class="input-style" v-model="phone" @click="focus()" ref="tel">
         <input type="password" placeholder="密码" class="input-style" v-model="password">
         <text class="login-btn" @click="signIn()">立即登录</text>
-        <div class="box">
+        <!-- <div class="box">
             <text class="text">还没有账号？</text>
             <text class="btn" @click="jumpTo('/register')">注册</text>
-        </div>
-        <text class="forget-psw" @click="jumpTo('/forgetPSW')">忘记密码？</text>
+        </div> -->
+        <!-- <text class="forget-psw" @click="jumpTo('/forgetPSW')">忘记密码？</text> -->
     </div>
         
         
@@ -123,7 +123,7 @@
                     if(res.data.code == 200){
                         let result = res.data.result;
                         storage.setItem('token',result.api_token);
-                        _self.$router.push('/_empty');
+                        _self.$router.push('/home');
                     }else{
                         modal.toast({
                             message: res.data.message,
@@ -135,8 +135,9 @@
             },
             jumpTo(_url){
                 this.$router.push(_url);
-                // const Hulk = new BroadcastChannel('Avengers')
-                // Hulk.postMessage("I click this text")
+            },
+            focus(){
+                this.$refs.tel.focus();
             }
         }
     }

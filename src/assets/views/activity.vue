@@ -7,7 +7,7 @@
                 <block-3 :article="ar" url=""></block-3>
             </div>
             <loading @loading="onloading" :class="['loading',loadinging ? 'show' : 'hide']">
-               <loading-indicator class="indicator"></loading-indicator>
+               <!-- <loading-indicator class="indicator"></loading-indicator> -->
              </loading>
         </scroller>
         <tab-bar @tabTo="onTabTo" router='activity'></tab-bar>
@@ -33,7 +33,7 @@
 
     }
     .android-main-list{
-        margin-bottom: 150px;
+        margin-bottom: 100px;
     }
     .cell-button{
         background-color: #f4f4f4;

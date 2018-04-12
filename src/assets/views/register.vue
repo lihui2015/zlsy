@@ -31,7 +31,7 @@
     </div>
 </template>
 <style scoped>
-.wrapper{
+    .wrapper{
         background-color:#ffffff;
     }
     .wrapper-login{

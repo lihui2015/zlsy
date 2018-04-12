@@ -6,8 +6,8 @@
             <text class="bar-txt" :class="[]">目录</text>
         </div>
         <div class="bar-item" @click="collect(collectTag)">
-            <text class="bar-ic iconfont icon-collect" :class="[collectTag == 1?'bar-active':'']">&#xe604;</text>
-            <text class="bar-txt" :class="[collectTag == 1?'bar-active':'']">收藏</text>
+            <text class="bar-ic iconfont icon-collect" :class="[isCol == 1?'bar-active':'']">&#xe604;</text>
+            <text class="bar-txt" :class="[isCol == 1?'bar-active':'']">收藏</text>
         </div>
         <div class="bar-item" @click="toggleComment">
             <text class="bar-ic iconfont icon-comment">&#xe608;</text>
@@ -69,6 +69,14 @@
     export default {
         props:['bookID','collectTag'],
         computed:{
+            isCol:{
+                get:function(){
+                    return this.collectTag;
+                },
+                set: function(v){
+                    return v;
+                }
+            }
         },
         data () {
             return {
@@ -95,7 +103,7 @@
                 var data = '';
                 this.POST('books/collect/'+this.bookID, this.token, data, res => {
                     if (res.data.code == 200){
-                        _self.collectTag = 1;
+                        _self.isCol = 1;
                         modal.toast({
                             message: res.data.message,
                             duration: 1
