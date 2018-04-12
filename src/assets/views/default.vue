@@ -17,6 +17,9 @@
             </div>
         </scroller>
         <tab-bar @tabTo="onTabTo" router="home"></tab-bar>
+        <div class="login-page" v-if="noLogin">
+            <login-page v-on:login="handleMessage"></login-page>
+        </div>
     </div>
 </template>
 
@@ -65,6 +68,7 @@
     import Block1 from '../components/Block1.vue';
     import Block2 from '../components/Block2.vue';
     import tabBar from '../components/tabBar.vue';
+    import loginPage from './login.vue';
     export default {
         name:'home',
         components: {
@@ -74,7 +78,8 @@
             'yx-slider': YXSlider,
             'book-search': bookSearch,
             'block-1': Block1,
-            'block-2': Block2
+            'block-2': Block2,
+            'login-page': loginPage
         },
         data () {
             return {
@@ -83,7 +88,9 @@
                 bookList: [],
                 showLoading: 'hide',
                 token: '',
-                isand:false
+                isand:false,
+                noLogin: false,
+                Stack:''
             }
         },
         created () {
@@ -91,45 +98,83 @@
             this.isand = Utils.env.isAndroid();
             storage.getItem('token',event => {
                 _self.token = event.data;
-
-                //banner ajax
-                this.GET('banners/list', _self.token, res => {
-                    if(res.data.code == 200){
-                        let result = res.data.result;
-                        this.YXBanners = result;
-                    }else{
-                        // modal.toast({
-                        //     message: res.data.code + ":" + _self.token,
-                        //     duration: 3
-                        // })
-                    }
-                });
-
-                //借阅记录
-                // this.testGET('api/home/borrowRecords.json', res => {
-                //     let result = res.data.result;
-                //     this.borrowRecords = result['borrowRecords'];
-                // });
-
-                //图书精选
-                this.GET('books/chosen/6', _self.token, res => {
-                    if(res.data.code == 200){
-                        let result = res.data.result;
-                        this.bookList = result;
-                        this.borrowRecords = result;
-                    }else{
-                        // modal.toast({
-                        //     message: res.data.code + ":" + _self.token,
-                        //     duration: 3
-                        // })
-                    }
-                })
+                if(_self.token == 'undefined'){
+                    this.noLogin = true;
+                }else if(_self.token != 'undefined'){
+                    this.GET('banners/list', _self.token, res => {
+                        let result = res.data;
+                        if(result.code != 200){
+                            this.noLogin = true;
+                            // modal.toast({
+                            //     message: res.data.code + ":" + _self.token,
+                            //     duration: 3
+                            // })
+                        }else if(result.code == 200){
+                            this.YXBanners = result.result;
+                            this.noLogin = false;
+                        }
+                    });
+                    this.GET('books/chosen/6', _self.token, res => {
+                        if(res.data.code == 200){
+                            let result = res.data.result;
+                            this.bookList = result;
+                            this.borrowRecords = result;
+                            this.noLogin = false;
+                        }else{
+                            this.noLogin = true;
+                            // modal.toast({
+                            //     message: res.data.code + ":" + _self.token,
+                            //     duration: 3
+                            // })
+                        }
+                    })
+                }
             })
+
+            this.Stack = new BroadcastChannel('Avengers')
+            this.Stack.onmessage = function (event) {
+                var test = event.data;
+                if(test == 'success'){
+                    _self.$router.push("/_empty")
+                }
+                this.Stack = null;
+                console.log(test);
+            }
+
+            // storage.getItem('token',event => {
+            //     _self.token = event.data;
+
+            //     //banner ajax
+            //     this.GET('banners/list', _self.token, res => {
+            //         if(res.data.code == 200){
+            //             let result = res.data.result;
+            //             this.YXBanners = result;
+            //         }else{
+            //             modal.toast({
+            //                 message: res.data.code + ":" + _self.token,
+            //                 duration: 3
+            //             })
+            //         }
+            //     });
+
+            //     //借阅记录
+            //     // this.testGET('api/home/borrowRecords.json', res => {
+            //     //     let result = res.data.result;
+            //     //     this.borrowRecords = result['borrowRecords'];
+            //     // });
+
+            //     //图书精选
+                
+            // })
         },
         methods: {
         onTabTo(_result){
               let _key = _result.data.key || '';
               this.$router && this.$router.push('/'+_key)
+          },
+        handleMessage(payload){
+              this.noLogin = payload.login;
+              //this.$router.push('/home')
           }
         }
     }

@@ -15,7 +15,7 @@
               <text class="tlt">{{postDetail.title}}</text>
           </div>
           <div class="description-box">
-              <text class="description">{{postDetail.content}}</text>
+              <text class="description">{{postDetail.html_content}}</text>
           </div>
           <div class="image-box">
             <image v-for="(img,i) in postDetail.html_image" :src="img" resize="cover" class="main-img"></image>

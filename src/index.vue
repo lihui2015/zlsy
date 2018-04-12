@@ -1,21 +1,20 @@
 <template>
-    <div class="box">
-        <div class="app-wrapper" v-if="login">
+        <div class="app-wrapper">
             <router-view class="r-box"></router-view>
             <!-- <tab-bar @tabTo="onTabTo"></tab-bar> -->
         </div>
-        <div class="login-page" v-else>
-            <login-page v-on:login="handleMessage"></login-page>
-        </div>
-    </div>
+        <!-- <div class="login-page" v-else>
+            <login-page v-on:login="handleMessage" v-on:jumpTo="handleJump"></login-page>
+        </div> -->
 </template>
 
 <script>
   var modal = weex.requireModule('modal');
   var storage = weex.requireModule('storage');
+  var navigator = weex.requireModule('navigator');
   import util from './assets/util';
   import tabBar from './assets/components/tabBar.vue';
-  import loginPage from './assets/views/register.vue';
+  import loginPage from './assets/views/login.vue';
   export default {
       name: 'App',
       data () {
@@ -29,17 +28,22 @@
       },
       created () {
           util.initIconFont();
+          var _self = this;
+          //获取token
           storage.getItem('token',event => {
             var localToken = event.data;
             if(localToken == 'undefined'){
               this.login = false;
+              _self.$router.push('/login')              
             }else if(localToken != 'undefined'){
               this.GET('banners/list', localToken, res => {
                   let result = res.data;
                   if(result.code != 200){
                     this.login = false;
+                    _self.$router.push('/login')
                   }else if(result.code == 200){
                     this.login = true;
+                    _self.$router.push('/home')
                   }
               });
             }
@@ -53,6 +57,10 @@
           handleMessage(payload){
               this.login = payload.login;
               this.$router.push('/home')
+          },
+          handleJump(event){
+              console.log(event.url);
+              this.$router.push('/register')
           }
       }
   }
@@ -60,45 +68,14 @@
 </script>
 
 <style scoped>
-.box{
-  position: absolute;
-      top:0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      width: 750px;
-        height: 1334px;
-}
-  .app-wrapper{
+    .app-wrapper{
         background-color: #ffffff;
-        width: 750px;
-        height: 1334px;
-        position: absolute;
-      top:0;
-      left: 0;
-      right: 0;
-      bottom: 0;
     }
-  .login-page{
-    position: absolute;
-      top:0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      width: 750px;
-        height: 1334px;
-  }
   .r-box{
       position: absolute;
       top:0;
       left: 0;
       right: 0;
       bottom: 0;
-  }
-  .hide{
-      opacity: 0;
-  }
-  .show{
-      opacity: 1;
   }
 </style>

@@ -1,13 +1,29 @@
 <template>
+    <div :class="['wrapper', isIpx&&isIpx()?'w-ipx':'']">
     <div class="wrapper-login">
         <text class="text">登录账户</text>
         <input type="tel" autofocus="true" placeholder="手机号" class="input-style" v-model="phone">
         <input type="password" placeholder="密码" class="input-style" v-model="password">
         <text class="login-btn" @click="signIn()">立即登录</text>
-        <text class="forget-psw">忘记密码？</text>
+        <div class="box">
+            <text class="text">还没有账号？</text>
+            <text class="btn" @click="jumpTo('/register')">注册</text>
+        </div>
+        <text class="forget-psw" @click="jumpTo('/forgetPSW')">忘记密码？</text>
+    </div>
+        
+        
     </div>
 </template>
 <style scoped>
+    .wrapper{
+        width: 750px;
+        height: 1245px;
+        position: fixed;
+        top:0;
+        left:0;
+        background-color:#ffffff;
+    }
     .wrapper-login{
         margin-top: 50px;
         margin-left: 125px;
@@ -43,9 +59,24 @@
         margin-top:40px;
         border-radius: 10px;
     }
-    .forget-psw{
-        margin-top: 40px;
+    .box{
+        width: 500px;
+        flex-direction: row;
+        align-items: center;
+        justify-content:center;
+        margin-top: 30px;
+    }
+    .text{
         color: #666666;
+        font-size: 32px;
+    }
+    .btn{
+        color: #009FF0;
+        font-size: 32px;
+    }
+    .forget-psw{
+        margin-top: 20px;
+        color: #009FF0;
         font-size: 32px;
         width: 400px;
         text-align: center;
@@ -92,7 +123,7 @@
                     if(res.data.code == 200){
                         let result = res.data.result;
                         storage.setItem('token',result.api_token);
-                        _self.$emit('login', { login: true})
+                        _self.$router.push('/_empty');
                     }else{
                         modal.toast({
                             message: res.data.message,
@@ -101,6 +132,11 @@
                     }
                     
                 })
+            },
+            jumpTo(_url){
+                this.$router.push(_url);
+                // const Hulk = new BroadcastChannel('Avengers')
+                // Hulk.postMessage("I click this text")
             }
         }
     }

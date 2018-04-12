@@ -1,8 +1,8 @@
 <template>
-    <div :class="['wrapper', isIpx&&isIpx()?'w-ipx':'']">
-    <div class="wrapper-login">
-        <text class="text">注册账户</text>
-        <input type="tel" autofocus="true" placeholder="手机号" class="input-style" v-model="phone" ref="tel" @click="focus">
+<div :class="['wrapper', isIpx&&isIpx()?'w-ipx':'']">
+    <div class="wrapper-step1 wrapper-login">
+        <text class="text">忘记密码</text>
+        <input type="tel" autofocus="true" placeholder="手机号" class="input-style" v-model="phone" @click="focus" ref="tel">
         <div class="validate">
             <input type="text" placeholder="验证码" class="input-style validate-input" v-model="code">
             <div class="validate-btn">
@@ -20,18 +20,23 @@
                 </wxc-countdown>
             </div>
         </div>
-        <input type="password" placeholder="密码" class="input-style" v-model="password">
-        <text class="login-btn" @click="signIn()">注册</text>
-        <div class="box">
-            <text class="text">已有账号，请</text>
-            <text class="btn" @click="jumpTo('/login')">登陆</text>
-        </div>
+        
+        <text class="login-btn" @click="next()">下一步</text>
     </div>
+    <div class="wrapper-step2 wrapper-login" v-if="step2">
+        <input type="password" placeholder="新密码" class="input-style" v-model="password">
+        <input type="password" placeholder="确认密码" class="input-style" v-model="confirm_password">
+        <text class="login-btn" @click="signIn()">重置密码</text>
     </div>
-    </div>
+</div>
 </template>
 <style scoped>
 .wrapper{
+        width: 750px;
+        height: 1245px;
+        position: fixed;
+        top:0;
+        left:0;
         background-color:#ffffff;
     }
     .wrapper-login{
@@ -90,20 +95,12 @@
         margin-top:40px;
         border-radius: 10px;
     }
-    .box{
-        width: 500px;
-        flex-direction: row;
-        align-items: center;
-        justify-content:center;
-        margin-top: 30px;
-    }
-    .text{
+    .forget-psw{
+        margin-top: 40px;
         color: #666666;
         font-size: 32px;
-    }
-    .btn{
-        color: #009FF0;
-        font-size: 32px;
+        width: 400px;
+        text-align: center;
     }
 </style>
 
@@ -120,7 +117,8 @@
                 code: '',
                 password: '',
                 before:true,
-                TIME:1000
+                TIME:1000,
+                step2:false
             }
         },
         components: { WxcCountdown },
@@ -132,26 +130,18 @@
         methods: {
             signIn(){
                 var _self = this;
-                var ph = this.phone,
-                    cd = this.code,
-                    pw = this.password;
-                if(!ph.length){
-                    modal.toast({
-                        message: "请输入手机号码",
-                        duration: 1
-                    });
-                    return false;
-                }
+                var np = this.password,
+                    op = this.confirm_password;
                 if(!cd.length){
                     modal.toast({
-                        message: "请输入验证码",
+                        message: "请输入新密码",
                         duration: 1
                     })
                     return false;
                 }
                 if(!pw.length){
                     modal.toast({
-                        message: "请输入密码",
+                        message: "请输入确认密码",
                         duration: 1
                     })
                     return false;
@@ -162,29 +152,23 @@
                     headers:{
                         "Content-Type":"application/json"
                     },
-                    body:JSON.stringify({"phone":ph,"code":cd,"password":pw}),
-                    url: 'http://www.imbawin.com/app/register'
+                    body:JSON.stringify({"password":np,"password_confirmation":op}),
+                    url: 'http://www.imbawin.com/app/resetPassword'
                 }, function(res){
                     if(res.data.code == 200){
-                        //注册成功
                         let result = res.data.result;
                         modal.toast({
-                            message: res.data.message+"，请登陆",
+                            message: res.data.message,
                             duration: 1
                         })
                         _self.$router.push('/login');
-                    }else if(res.data.code == 3001){
-                        //已经注册过
-                        modal.toast({
-                            message: res.data.message,
-                            duration: 3
-                        })
                     }else{
                         modal.toast({
                             message: res.data.message,
                             duration: 3
                         })
                     }
+                    
                 })
             },
             validate(){
@@ -201,7 +185,11 @@
                 stream.fetch({
                     method: 'POST',
                     type: 'json',
-                    url: 'http://www.imbawin.com/app/sendCode?phone='+ph
+                    headers:{
+                        "Content-Type":"application/json"
+                    },
+                    body:JSON.stringify({"phone":ph}),
+                    url: 'http://www.imbawin.com/app/sendCode'
                 }, function(res){
                     if(res.data.code == 200){
                         let result = res.data.result;
@@ -226,8 +214,44 @@
             focus(){
                 this.$refs.tel.focus();
             },
-            jumpTo(_url){
-                this.$router.push(_url);
+            next(){
+                var _self = this;
+                var ph = this.phone,
+                    cd = this.code;
+                if(!ph.length){
+                    modal.toast({
+                        message: "请输入手机号码",
+                        duration: 1
+                    });
+                    return false;
+                }
+                if(!cd.length){
+                    modal.toast({
+                        message: "请输入验证码",
+                        duration: 1
+                    })
+                    return false;
+                }
+                stream.fetch({
+                    method: 'POST',
+                    type: 'json',
+                    headers:{
+                        "Content-Type":"application/json"
+                    },
+                    body:JSON.stringify({"phone":ph,"code":cd}),
+                    url: 'http://www.imbawin.com/app/resetPhoneValidate'
+                }, function(res){
+                    if(res.data.code == 200){
+                        let result = res.data.result;
+                        _self.step2 = true;
+                    }else{
+                        modal.toast({
+                            message: res.data.message,
+                            duration: 3
+                        })
+                    }
+                    
+                })
             }
         }
     }
