@@ -162,7 +162,7 @@
                         "Content-Type":"application/json"
                     },
                     body:JSON.stringify({"password":np,"password_confirmation":op}),
-                    url: 'http://www.imbawin.com/app/resetPassword'
+                    url: 'http://zl.senseitgroup.com/app/resetPassword'
                 }, function(res){
                     if(res.data.code == 200){
                         let result = res.data.result;
@@ -198,7 +198,7 @@
                         "Content-Type":"application/json"
                     },
                     body:JSON.stringify({"phone":ph}),
-                    url: 'http://www.imbawin.com/app/sendCode'
+                    url: 'http://zl.senseitgroup.com/app/sendCode'
                 }, function(res){
                     if(res.data.code == 200){
                         let result = res.data.result;
@@ -251,7 +251,7 @@
                         "Content-Type":"application/json"
                     },
                     body:JSON.stringify({"phone":ph,"code":cd}),
-                    url: 'http://www.imbawin.com/app/resetPhoneValidate'
+                    url: 'http://zl.senseitgroup.com/app/resetPhoneValidate'
                 }, function(res){
                     if(res.data.code == 200){
                         let result = res.data.result;

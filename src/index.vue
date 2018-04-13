@@ -1,6 +1,8 @@
 <template>
         <div class="app-wrapper">
-            <router-view class="r-box"></router-view>
+            <transition>
+                <router-view class="r-box"></router-view>
+            </transition>
             <!-- <tab-bar @tabTo="onTabTo"></tab-bar> -->
         </div>
         <!-- <div class="login-page" v-else>

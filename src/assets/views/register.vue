@@ -163,7 +163,7 @@
                         "Content-Type":"application/json"
                     },
                     body:JSON.stringify({"phone":ph,"code":cd,"password":pw}),
-                    url: 'http://www.imbawin.com/app/register'
+                    url: 'http://zl.senseitgroup.com/app/register'
                 }, function(res){
                     if(res.data.code == 200){
                         //注册成功
@@ -201,7 +201,7 @@
                 stream.fetch({
                     method: 'POST',
                     type: 'json',
-                    url: 'http://www.imbawin.com/app/sendCode?phone='+ph
+                    url: 'http://zl.senseitgroup.com/app/sendCode?phone='+ph
                 }, function(res){
                     if(res.data.code == 200){
                         let result = res.data.result;
